@@ -1,0 +1,863 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Contact Us | Vision Innovative Products</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;900&family=Inter:wght@400;700&display=swap');
+
+        * {
+            box-sizing: border-box
+        }
+
+        body {
+            margin: 0;
+            background: #f4f2ed;
+            color: #101114;
+            font-family: Inter
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-family: 'Barlow Condensed';
+            text-transform: uppercase;
+            margin: 0
+        }
+
+        .nav {
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            right: 0;
+            top: 0;
+            height: 82px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 4vw;
+            color: #101114;
+            transition: .35s
+        }
+
+        .nav.scrolled {
+            height: 68px;
+            background: rgba(255, 255, 255, .95);
+            backdrop-filter: blur(15px)
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 800;
+            letter-spacing: .02em
+        }
+
+        .btn {
+            border: 0;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 14px;
+            padding: 15px 22px;
+            background: #ef2b22;
+            color: #fff;
+            text-decoration: none;
+            text-transform: uppercase;
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: .1em;
+            cursor: pointer;
+            clip-path: polygon(7% 0, 100% 0, 93% 100%, 0 100%);
+            transition: transform .25s, background .25s;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            background: #ff3c32;
+        }
+
+        .brand-mark {
+            width: 42px;
+            height: 42px;
+            border: 3px solid currentColor;
+            display: grid;
+            place-items: center;
+            transform: skew(-8deg);
+            font: 900 22px 'Barlow Condensed'
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.2vw;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .12em
+        }
+
+        .nav-links a {
+            color: #101114;
+            text-decoration: none;
+        }
+
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: end;
+            padding: 8%;
+            color: rgb(0, 0, 0);
+            position: relative;
+            overflow: hidden;
+            background: #ffffff
+        }
+
+        .hero h1 {
+            font-size: clamp(70px, 13vw, 180px);
+            line-height: .75
+        }
+
+        .hero span {
+            color: #e12416;
+            font-style: italic
+        }
+
+        .section {
+            padding: 100px 6%
+        }
+
+        .contact {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px
+        }
+
+        .contact h2 {
+            font-size: 90px;
+            line-height: .8
+        }
+
+        .cards {
+            display: grid;
+            gap: 20px
+        }
+
+        .card {
+            background: #111;
+            color: white;
+            padding: 35px;
+            transition: .4s
+        }
+
+        .card:hover {
+            transform: translateY(-10px)
+        }
+
+        .card h3 {
+            font-size: 42px
+        }
+
+        .form {
+            background: white;
+            padding: 40px;
+            box-shadow: 0 20px 50px #0002
+        }
+
+        .form input,
+        .form textarea {
+            width: 100%;
+            padding: 16px;
+            margin: 10px 0;
+            border: 1px solid #ddd
+        }
+
+        .form button {
+            border: 0;
+            background: #ef2b22;
+            color: #fff;
+            padding: 18px 30px;
+            font-weight: bold
+        }
+
+        .map {
+            height: 400px;
+            background: #17181b;
+            color: white;
+            display: grid;
+            place-items: center;
+            font-size: 60px;
+            font-family: 'Barlow Condensed'
+        }
+
+        .cta {
+            background: #ef2b22;
+            color: rgb(0, 0, 0);
+            text-align: center;
+            padding: 120px 5%
+        }
+
+        .cta h2 {
+            font-size: 120px
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: .8s
+        }
+
+        .show {
+            opacity: 1;
+            transform: none
+        }
+
+        @media(max-width:800px) {
+            .contact {
+                grid-template-columns: 1fr
+            }
+
+            .cta h2,
+            .contact h2 {
+                font-size: 60px
+            }
+        }
+
+        /* MOBILE HAMBURGER MENU */
+        .menu {
+            display: none;
+            background: none;
+            border: 0;
+            color: #101114;
+            font-size: 28px;
+            cursor: pointer;
+            padding: 8px;
+        }
+
+        /* Mobile */
+        @media (max-width: 900px) {
+
+            .nav {
+                position: fixed;
+                height: 72px;
+                padding: 0 22px;
+                background: #fff;
+            }
+
+            .brand {
+                gap: 8px;
+                font-size: 14px;
+            }
+
+            .brand-mark {
+                width: 36px;
+                height: 36px;
+                font-size: 19px;
+            }
+
+            /* Hide desktop navigation */
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 72px;
+                left: 0;
+                right: 0;
+
+                background: #fff;
+
+                flex-direction: column;
+                gap: 10;
+
+                padding: 10px 22px 20px;
+
+                box-shadow: 0 10px 25px rgba(0, 0, 0, .12);
+
+                z-index: 999;
+            }
+
+            /* Show dropdown */
+            .nav-links.open {
+                display: flex;
+            }
+
+            .nav-links a {
+                color: #101114;
+                text-decoration: none;
+                font-size: 12px;
+                font-weight: 700;
+                text-transform: uppercase;
+                letter-spacing: .12em;
+            }
+
+            .nav-links a:last-child {
+                border-bottom: none;
+            }
+
+            /* Hide quote button on mobile */
+            .nav>.btn {
+                display: none;
+            }
+
+            /* Show hamburger */
+            .menu {
+                display: block;
+            }
+        }
+
+        @media(max-width:900px) {
+            .nav {
+                padding: 0 22px
+            }
+
+            .navlinks,
+            .nav-cta {
+                display: none
+            }
+
+            .menu {
+                display: block
+            }
+        }
+    </style>
+</head>
+
+<style>
+    body {
+        background: #f4f2ed;
+        color: #101114;
+        font-family: Inter, Arial, sans-serif
+    }
+
+    .nav {
+        height: 82px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 5vw;
+        background: #fff;
+        color: #101114;
+        position: fixed;
+        inset: 0 0 auto;
+        z-index: 100;
+        border-bottom: 1px solid rgba(0, 0, 0, .08)
+    }
+
+    .nav.scrolled {
+        height: 70px;
+        background: rgba(255, 255, 255, .95);
+        backdrop-filter: blur(14px)
+    }
+
+    .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-weight: 800
+    }
+
+    .brand-mark {
+        width: 42px;
+        height: 42px;
+        border: 3px solid currentColor;
+        display: grid;
+        place-items: center;
+        transform: skew(-8deg);
+        font: 900 22px 'Barlow Condensed'
+    }
+
+    .nav-links {
+        display: flex;
+        gap: 30px;
+        font-size: 10px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: .15em
+    }
+
+    .nav-links a {
+        opacity: .65
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+        opacity: 1;
+        color: #ef2b22
+    }
+
+    .btn {
+        border: 0;
+        background: #ef2b22;
+        color: #fff;
+        padding: 14px 20px;
+        text-transform: uppercase;
+        letter-spacing: .12em;
+        font-weight: 900
+    }
+
+    .menu {
+        display: none;
+        background: none;
+        border: 0;
+        color: #101114;
+        font-size: 25px
+    }
+
+    .contact-hero {
+        min-height: 760px;
+        padding: 155px 7vw 90px;
+        display: flex;
+        align-items: end;
+        background: #fff;
+        position: relative;
+        overflow: hidden
+    }
+
+    .contact-hero:after {
+        content: "";
+        position: absolute;
+        width: 48vw;
+        height: 48vw;
+        border-radius: 50%;
+        right: -16vw;
+        top: -18vw;
+        background: radial-gradient(circle, rgba(239, 43, 34, .16), transparent 68%)
+    }
+
+    .contact-hero>div {
+        position: relative;
+        z-index: 2
+    }
+
+    .contact-hero>div>p:first-child {
+        font-size: 10px;
+        letter-spacing: .22em;
+        text-transform: uppercase;
+        color: #ef2b22;
+        font-weight: 900
+    }
+
+    .contact-hero h1 {
+        font-family: 'Barlow Condensed';
+        font-size: clamp(78px, 12vw, 170px);
+        line-height: .77;
+        letter-spacing: -.05em;
+        margin-top: 22px;
+        text-transform: uppercase
+    }
+
+    .contact-hero h1 span {
+        color: #ef2b22
+    }
+
+    .hero-copy {
+        max-width: 560px;
+        color: #5f655f;
+        line-height: 1.75;
+        font-size: 15px;
+        margin-top: 30px
+    }
+
+    .contact-grid {
+        display: grid;
+        grid-template-columns: 1fr .9fr;
+        gap: 70px;
+        padding: 110px 7vw
+    }
+
+    .eyebrow,
+    .form-kicker {
+        font-size: 9px;
+        letter-spacing: .22em;
+        color: #ef2b22;
+        text-transform: uppercase;
+        font-weight: 900
+    }
+
+    .contact-info h2,
+    .lead-form h2,
+    .contact-compare h2 {
+        font-family: 'Barlow Condensed';
+        text-transform: uppercase;
+        letter-spacing: -.045em;
+        line-height: .84
+    }
+
+    .contact-info h2 {
+        font-size: clamp(60px, 7vw, 100px);
+        margin-top: 20px
+    }
+
+    .contact-info h2 span,
+    .contact-compare h2 span {
+        color: #ef2b22
+    }
+
+    .contact-info>p {
+        max-width: 500px;
+        color: #636b64;
+        font-size: 14px;
+        line-height: 1.8;
+        margin-top: 28px
+    }
+
+    .contact-cards {
+        display: grid;
+        gap: 12px;
+        margin-top: 38px
+    }
+
+    .contact-card {
+        background: #111311;
+        color: #fff;
+        padding: 24px
+    }
+
+    .contact-card small {
+        display: block;
+        color: #ef2b22;
+        font-size: 8px;
+        letter-spacing: .18em;
+        font-weight: 900;
+        margin-bottom: 10px
+    }
+
+    .contact-card strong,
+    .contact-card span {
+        display: block;
+        font-size: 13px;
+        line-height: 1.65
+    }
+
+    .lead-form {
+        background: #fff;
+        padding: 38px;
+        box-shadow: 0 24px 60px rgba(0, 0, 0, .08);
+        border-top: 4px solid #ef2b22
+    }
+
+    .lead-form h2 {
+        font-size: 56px;
+        margin: 17px 0 27px
+    }
+
+    .lead-form label {
+        display: block;
+        font-size: 8px;
+        text-transform: uppercase;
+        letter-spacing: .15em;
+        font-weight: 900;
+        margin-top: 16px
+    }
+
+    .lead-form input,
+    .lead-form select,
+    .lead-form textarea {
+        width: 100%;
+        margin-top: 8px;
+        padding: 15px 14px;
+        border: 1px solid #d9ddd8;
+        background: #fafaf8;
+        color: #111;
+        font: inherit;
+        outline: none
+    }
+
+    .lead-form input:focus,
+    .lead-form select:focus,
+    .lead-form textarea:focus {
+        border-color: #ef2b22
+    }
+
+    .lead-form button {
+        margin-top: 24px;
+        width: 100%;
+        padding: 17px;
+        border: 0;
+        background: #ef2b22;
+        color: #fff;
+        text-transform: uppercase;
+        letter-spacing: .14em;
+        font-weight: 900
+    }
+
+    .form-note {
+        display: block;
+        color: #7a807a;
+        font-size: 9px;
+        line-height: 1.5;
+        margin-top: 12px
+    }
+
+    .contact-compare {
+        padding: 105px 7vw;
+        background: #101311;
+        color: #fff;
+        display: grid;
+        grid-template-columns: .9fr 1.1fr;
+        gap: 70px;
+        align-items: start
+    }
+
+    .contact-compare h2 {
+        font-size: clamp(60px, 7vw, 100px);
+        margin-top: 18px
+    }
+
+    .steps {
+        display: grid;
+        gap: 1px;
+        background: rgba(255, 255, 255, .12)
+    }
+
+    .steps>div {
+        background: #161a17;
+        padding: 26px
+    }
+
+    .steps b {
+        display: block;
+        color: #ef2b22;
+        font-size: 9px;
+        letter-spacing: .18em
+    }
+
+    .steps strong {
+        display: block;
+        margin-top: 10px;
+        font-size: 16px
+    }
+
+    .steps p {
+        margin-top: 7px;
+        color: #858e87;
+        font-size: 11px;
+        line-height: 1.6
+    }
+
+    footer {
+        background: #ef2b22;
+        color: #fff;
+        padding: 60px 7vw 28px
+    }
+
+    .footer-grid {
+        display: grid;
+        grid-template-columns: 1.3fr .7fr .7fr;
+        gap: 50px
+    }
+
+    .footer-brand h3 {
+        font-family: 'Barlow Condensed';
+        font-size: 44px;
+        text-transform: uppercase;
+        letter-spacing: -.03em
+    }
+
+    .footer-brand p,
+    .footer-col a {
+        color: #fff;
+        font-size: 12px;
+        line-height: 1.7
+    }
+
+    .footer-col h4 {
+        font-size: 9px;
+        letter-spacing: .18em;
+        text-transform: uppercase;
+        margin-bottom: 14px
+    }
+
+    .footer-col a {
+        display: block;
+        margin: 8px 0
+    }
+
+    .copyright {
+        border-top: 1px solid rgba(255, 255, 255, .35);
+        margin-top: 45px;
+        padding-top: 18px;
+        font-size: 9px;
+        display: flex;
+        justify-content: space-between
+    }
+
+    @media(max-width:900px) {
+
+        .nav-links,
+        .nav-quote {
+            display: none
+        }
+
+        .menu {
+            display: block
+        }
+
+        .nav-links.open {
+            display: flex !important;
+            position: fixed;
+            inset: 82px 0 0;
+            background: #101311;
+            color: #fff;
+            flex-direction: column;
+            gap: 0;
+            padding: 50px 25px;
+            z-index: 2000
+        }
+
+        .nav-links.open a {
+            padding: 18px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, .14);
+            font-size: 20px;
+            color: #fff
+        }
+
+        .nav-links.open a:last-child {
+            color: #ef2b22
+        }
+
+        .menu {
+            z-index: 2100
+        }
+
+        .contact-hero {
+            padding: 140px 22px 75px;
+            min-height: 690px
+        }
+
+        .contact-grid,
+        .contact-compare {
+            grid-template-columns: 1fr;
+            padding: 80px 22px;
+            gap: 42px
+        }
+
+        .lead-form {
+            padding: 28px 22px
+        }
+
+        .contact-compare {
+            padding-top: 75px
+        }
+
+        .footer-grid {
+            grid-template-columns: 1fr
+        }
+
+        .copyright {
+            display: block;
+            line-height: 1.8
+        }
+    }
+</style>
+
+<body>
+    <header class="nav">
+        <a class="brand" href="home.html"><span class="brand-mark">V</span><span>Vision Innovative Products</span></a>
+        <nav class="nav-links">
+            <a href="home.html">Home</a><a href="about.html">About Us</a><a href="products.html">Products</a><a
+                class="active" href="contact.html">Contact</a>
+        </nav>
+        <a class="btn nav-quote" href="#form">Get a Custom Quote →</a>
+        <button class="menu" aria-label="Open menu" aria-expanded="false">☰</button>
+    </header>
+
+    <section class="hero contact-hero">
+        <div>
+            <p>VISION INNOVATIVE PRODUCTS / SALES</p>
+            <h1>Tell us what<br>you need to<br><span>move.</span></h1>
+            <p class="hero-copy">Tell us what you carry, where you operate and what the vehicle needs to do. We will
+                start from the business requirement, not a generic catalogue.</p>
+        </div>
+    </section>
+
+    <section class="section contact-grid" id="form">
+        <div class="contact-info">
+            <div class="eyebrow">Start with the use case</div>
+            <h2>Let’s build the<br><span>right vehicle.</span></h2>
+            <p>Vision works on commercial electric mobility for real operating needs — from EV loaders and delivery
+                applications to mobile food businesses and customer-led vehicle configurations.</p>
+            <div class="contact-cards">
+                <div class="contact-card"><small>CALL</small><strong>+91 73584 33190</strong><strong>+91 88257
+                        54903</strong></div>
+                <div class="contact-card"><small>EMAIL</small><strong>info@visionevehicles.com</strong></div>
+                <div class="contact-card"><small>VISIT</small><span>L/5, Kakkanji Street, Bypass Link
+                        Road,<br>Periyapanicheri, Chennai, Tamil Nadu 600122</span></div>
+            </div>
+        </div>
+
+        <form class="lead-form" action="mailto:info@visionevehicles.com" method="post" enctype="text/plain">
+            <div class="form-kicker">CUSTOM ENQUIRY</div>
+            <h2>What are you<br>building?</h2>
+            <label>Your name<input name="name" placeholder="Your name" required></label>
+            <label>Phone<input name="phone" type="tel" placeholder="Your phone number" required></label>
+            <label>Email<input name="email" type="email" placeholder="you@company.com" required></label>
+            <label>I'm interested in<select name="interest" required>
+                    <option value="">Select a product</option>
+                    <option>EV Food Truck</option>
+                    <option>EV Loader</option>
+                    <option>Custom Electric Vehicle</option>
+                    <option>Fleet / Multiple Vehicles</option>
+                    <option>Other</option>
+                </select></label>
+            <label>My business is in<select name="industry">
+                    <option value="">Select an industry</option>
+                    <option>Food & Beverage</option>
+                    <option>Delivery & Distribution</option>
+                    <option>Agriculture & Farms</option>
+                    <option>Construction / Materials</option>
+                    <option>Other</option>
+                </select></label>
+            <label>What do you need the vehicle to do?<textarea name="requirement" rows="5"
+                    placeholder="Tell us about the load, route, business or configuration you have in mind."></textarea></label>
+            <button type="submit">Send enquiry →</button>
+            <small class="form-note">By submitting, you are starting a direct enquiry with Vision Innovative
+                Products.</small>
+        </form>
+    </section>
+
+    <section class="contact-compare">
+        <div>
+            <div class="eyebrow">What happens next</div>
+            <h2>One conversation.<br><span>A clearer vehicle brief.</span></h2>
+        </div>
+        <div class="steps">
+            <div><b>01</b><strong>Understand the work</strong>
+                <p>Payload, route, customer and operating requirement.</p>
+            </div>
+            <div><b>02</b><strong>Match the platform</strong>
+                <p>Loader, food truck or a custom direction.</p>
+            </div>
+            <div><b>03</b><strong>Move toward a quote</strong>
+                <p>A practical commercial conversation, not a generic brochure.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <h3>Vision Innovative Products</h3>
+                <p>Electric vehicle manufacturers. Built in Chennai. Built for the world.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Contact</h4><a href="tel:+917358433190">+91 73584 33190</a><a href="tel:+918825754903">+91 88257
+                    54903</a><a href="mailto:info@visionevehicles.com">info@visionevehicles.com</a>
+            </div>
+            <div class="footer-col">
+                <h4>Products</h4><a href="products.html#food-trucks">EV Food Trucks</a><a
+                    href="products.html#loaders">EV Loaders</a><a href="products.html#compare">Compare</a>
+            </div>
+        </div>
+        <div class="copyright"><span>© 2026 Vision Innovative Products</span><span>Commercial EVs • Engineering
+                Solutions</span></div>
+    </footer>
+    <script>
+        const menu = document.querySelector('.menu'), links = document.querySelector('.nav-links');
+        menu.addEventListener('click', () => { const open = links.classList.toggle('open'); menu.setAttribute('aria-expanded', open) });
+        document.querySelectorAll('.nav-links a').forEach(a => a.addEventListener('click', () => { links.classList.remove('open'); menu.setAttribute('aria-expanded', 'false') }));
+    </script>
+</body>
+
+</html>

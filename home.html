@@ -1,0 +1,2291 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="description" content="Vision Innovative Products — commercial electric loaders built in Chennai." />
+    <title>Vision Innovative Products | Electric Commercial Vehicles</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,500;0,600;0,700;0,800;0,900;1,700&family=Inter:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --ink: #101114;
+            --paper: #f4f2ed;
+            --red: #ef2b22;
+            --yellow: #ef2b22;
+            --muted: #777b80;
+            --line: rgba(16, 17, 20, .14)
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        html {
+            scroll-behavior: smooth
+        }
+
+        body {
+            margin: 0;
+            background: var(--paper);
+            color: var(--ink);
+            font-family: Inter, Arial, sans-serif;
+            overflow-x: hidden
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none
+        }
+
+        img {
+            display: block;
+            max-width: 100%
+        }
+
+        button {
+            font: inherit
+        }
+
+        .loader {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background: #fff;
+            color: #101114;
+            display: grid;
+            place-items: center;
+            transition: transform .8s cubic-bezier(.8, 0, .2, 1)
+        }
+
+        .loader.hide {
+            transform: translateY(-100%)
+        }
+
+        .loader b {
+            font: 900 clamp(48px, 10vw, 140px)/.8 'Barlow Condensed';
+            letter-spacing: -.04em;
+            visibility: hidden;
+        }
+
+        body.fonts-ready .loader b {
+            visibility: visible;
+        }
+
+        .loader b span {
+            color: var(--red)
+        }
+
+        /* Prevent the underlying Home hero text from flashing through while the intro loader is visible. */
+        body:not(.page-ready) .hero {
+            opacity: 0;
+        }
+
+        body.page-ready .hero {
+            opacity: 1;
+            transition: opacity .3s ease;
+        }
+
+        .cursor {
+            width: 18px;
+            height: 18px;
+            border: 1px solid rgba(255, 255, 255, .7);
+            border-radius: 50%;
+            position: fixed;
+            z-index: 9998;
+            pointer-events: none;
+            mix-blend-mode: difference;
+            transition: width .2s, height .2s, background .2s;
+            transform: translate(-50%, -50%)
+        }
+
+        .nav {
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            right: 0;
+            top: 0;
+            height: 82px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 4vw;
+            color: #101114;
+            transition: .35s
+        }
+
+        .nav.scrolled {
+            height: 68px;
+            background: rgba(255, 255, 255, .95);
+            backdrop-filter: blur(15px)
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 800;
+            letter-spacing: .02em
+        }
+
+        .brand-mark {
+            width: 42px;
+            height: 42px;
+            border: 3px solid currentColor;
+            display: grid;
+            place-items: center;
+            transform: skew(-8deg);
+            font: 900 22px 'Barlow Condensed'
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.2vw;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .12em
+        }
+
+        .nav-cta,
+        .btn {
+            border: 0;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 14px;
+            padding: 15px 22px;
+            background: var(--red);
+            color: #fff;
+            text-transform: uppercase;
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: .1em;
+            cursor: pointer;
+            clip-path: polygon(7% 0, 100% 0, 93% 100%, 0 100%);
+            transition: transform .25s, background .25s
+        }
+
+        .nav-cta:hover,
+        .btn:hover {
+            transform: translateY(-3px);
+            background: #ff3c32
+        }
+
+        .menu {
+            display: none;
+            background: none;
+            border: 0;
+            color: #fff;
+            font-size: 25px
+        }
+
+        .hero {
+            min-height: 100svh;
+            position: relative;
+            display: flex;
+            align-items: flex-end;
+            overflow: hidden;
+            background: #fff
+        }
+
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            background: url('https://static.wixstatic.com/media/84770f_3ebbf7ac3e26427b83ca50c82aabaaf8~mv2.png/v1/fill/w_1920,h_950,al_c,q_90/84770f_3ebbf7ac3e26427b83ca50c82aabaaf8~mv2.png') center/cover no-repeat;
+            transform: scale(1.08)
+        }
+
+        .hero-noise {
+            display: none !important
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            color: #101114;
+            width: min(92%, 1400px);
+            margin: 0 auto;
+            padding: 140px 0 8vh
+        }
+
+        .eyebrow {
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: .24em;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 12px
+        }
+
+        .eyebrow:before {
+            content: "";
+            width: 34px;
+            height: 3px;
+            background: var(--red)
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-family: 'Barlow Condensed', sans-serif;
+            text-transform: uppercase;
+            margin: 0
+        }
+
+        .hero h1 {
+            max-width: 980px;
+            font-size: clamp(72px, 11vw, 170px);
+            line-height: .78;
+            letter-spacing: -.045em;
+            margin: 26px 0 30px
+        }
+
+        .hero h1 em {
+            font-style: italic;
+            color: var(--red)
+        }
+
+        .hero-bottom {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 30px;
+            align-items: end
+        }
+
+        .hero p {
+            max-width: 580px;
+            font-size: clamp(16px, 1.4vw, 21px);
+            line-height: 1.55;
+            color: rgba(16, 17, 20, .72)
+        }
+
+        .scroll-indicator {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: .18em;
+            writing-mode: vertical-rl
+        }
+
+        .scroll-line {
+            height: 70px;
+            width: 1px;
+            background: rgba(16, 17, 20, .25);
+            position: relative;
+            overflow: hidden
+        }
+
+        .scroll-line:after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: #101114;
+            animation: scrollLine 1.8s infinite;
+            transform: translateY(-100%)
+        }
+
+        @keyframes scrollLine {
+            to {
+                transform: translateY(100%)
+            }
+        }
+
+        .quick-stats {
+            background: var(--red);
+            color: #fff;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            padding: 0 4vw
+        }
+
+        .quick-stat {
+            min-height: 170px;
+            padding: 35px 3vw;
+            border-right: 1px solid rgba(255, 255, 255, .3);
+            display: flex;
+            flex-direction: column;
+            justify-content: center
+        }
+
+        .quick-stat:last-child {
+            border: 0
+        }
+
+        .quick-stat b {
+            font: 900 clamp(42px, 5vw, 78px)/.8 'Barlow Condensed'
+        }
+
+        .quick-stat span {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: .15em;
+            margin-top: 14px
+        }
+
+        .section {
+            padding: 120px 4vw
+        }
+
+        .section-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            gap: 30px;
+            margin-bottom: 65px
+        }
+
+        .section-head h2 {
+            font-size: clamp(58px, 8vw, 118px);
+            line-height: .82;
+            letter-spacing: -.04em
+        }
+
+        .section-head p {
+            max-width: 460px;
+            line-height: 1.7;
+            color: var(--muted)
+        }
+
+        .accent {
+            color: var(--red);
+            font-style: italic
+        }
+
+        .intro {
+            display: grid;
+            grid-template-columns: .9fr 1.1fr;
+            min-height: 750px
+        }
+
+        .intro-copy {
+            padding: 9vw 5vw;
+            background: #fff;
+            color: #101114;
+            display: flex;
+            flex-direction: column;
+            justify-content: center
+        }
+
+        .intro-copy h2 {
+            font-size: clamp(58px, 7vw, 110px);
+            line-height: .84;
+            letter-spacing: -.035em
+        }
+
+        .intro-copy p {
+            max-width: 520px;
+            color: #555;
+            line-height: 1.8;
+            margin: 30px 0
+        }
+
+        .intro-media {
+            position: relative;
+            overflow: hidden;
+            background: #ddd
+        }
+
+        .intro-media img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform .8s
+        }
+
+        .intro-media:hover img {
+            transform: scale(1.05)
+        }
+
+        .floating-label {
+            position: absolute;
+            left: 35px;
+            bottom: 35px;
+            background: var(--red);
+            padding: 16px 22px;
+            font: 800 18px 'Barlow Condensed';
+            text-transform: uppercase;
+            transform: rotate(-2deg)
+        }
+
+        .story {
+            background: #fff;
+            color: #101114;
+            padding-bottom: 0
+        }
+
+        .story .section-head p {
+            color: #666
+        }
+
+        .story-wrap {
+            position: relative
+        }
+
+        .story-panel {
+            min-height: 100svh;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+            border-top: 1px solid rgba(16, 17, 20, .14);
+            position: sticky;
+            top: 0;
+            background: #fff
+        }
+
+        .story-panel:nth-child(2) {
+            top: 35px;
+            background: #fff
+        }
+
+        .story-panel:nth-child(3) {
+            top: 70px;
+            background: #fff
+        }
+
+        .story-panel:nth-child(4) {
+            top: 105px;
+            background: #fff
+        }
+
+        .story-copy {
+            padding: 8vw
+        }
+
+        .story-num {
+            font: 800 16px 'Barlow Condensed';
+            color: var(--red)
+        }
+
+        .story-copy h3 {
+            font-size: clamp(54px, 7vw, 112px);
+            line-height: .83;
+            letter-spacing: -.03em;
+            margin: 20px 0
+        }
+
+        .story-copy p {
+            color: #555;
+            line-height: 1.7;
+            max-width: 490px
+        }
+
+        .story-media {
+            height: 100%;
+            overflow: hidden
+        }
+
+        .story-media img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover
+        }
+
+        .gallery {
+            background: var(--red);
+            overflow: hidden
+        }
+
+        .marquee {
+            display: flex;
+            width: max-content;
+            gap: 30px;
+            animation: marquee 28s linear infinite
+        }
+
+        .marquee:hover {
+            animation-play-state: paused
+        }
+
+        @keyframes marquee {
+            to {
+                transform: translateX(-50%)
+            }
+        }
+
+        .gallery-card {
+            width: min(62vw, 720px);
+            height: 460px;
+            flex: 0 0 auto;
+            position: relative;
+            overflow: hidden;
+            background: #fff
+        }
+
+        .gallery-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: .6s
+        }
+
+        .gallery-card:hover img {
+            transform: scale(1.06)
+        }
+
+        .gallery-card span {
+            position: absolute;
+            inset: auto 24px 24px 24px;
+            color: #fff;
+            font: 800 30px 'Barlow Condensed';
+            text-transform: uppercase;
+            text-shadow: 0 2px 20px #000
+        }
+
+        .usecases {
+            background: #eeeae2
+        }
+
+        .use-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            border-top: 1px solid var(--line);
+            border-left: 1px solid var(--line)
+        }
+
+        .use-card {
+            min-height: 360px;
+            padding: 35px;
+            border-right: 1px solid var(--line);
+            border-bottom: 1px solid var(--line);
+            position: relative;
+            overflow: hidden;
+            transition: .35s
+        }
+
+        .use-card:hover {
+            background: #fff;
+            color: #101114
+        }
+
+        .use-icon {
+            font-size: 45px
+        }
+
+        .use-card h3 {
+            font-size: 40px;
+            line-height: .9;
+            margin-top: 100px
+        }
+
+        .use-card p {
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.6
+        }
+
+        .use-card:hover p {
+            color: #666
+        }
+
+        .use-card:after {
+            content: "↗";
+            position: absolute;
+            right: 24px;
+            top: 22px;
+            font-size: 25px
+        }
+
+        .numbers {
+            background: var(--red);
+            color: #fff
+        }
+
+        .number-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr)
+        }
+
+        .number {
+            padding: 60px 25px;
+            border-right: 1px solid rgba(255, 255, 255, .3);
+            text-align: center
+        }
+
+        .number b {
+            font: 900 clamp(65px, 8vw, 130px)/.8 'Barlow Condensed'
+        }
+
+        .number p {
+            text-transform: uppercase;
+            font-size: 11px;
+            letter-spacing: .18em
+        }
+
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 22px
+        }
+
+        .news-card {
+            background: #fff;
+            padding: 12px;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, .06);
+            transform: rotate(var(--r));
+            transition: .35s
+        }
+
+        .news-card:hover {
+            transform: rotate(0) translateY(-10px)
+        }
+
+        .news-card img {
+            width: 100%;
+            height: 360px;
+            object-fit: cover
+        }
+
+        .news-card p {
+            font: 700 14px/1.4 Inter;
+            margin: 18px 10px 10px
+        }
+
+        .cta {
+            min-height: 80vh;
+            background: #fff;
+            color: #101114;
+            display: grid;
+            place-items: center;
+            text-align: center;
+            padding: 100px 5vw;
+            position: relative;
+            overflow: hidden
+        }
+
+        .cta:before {
+            content: "";
+            position: absolute;
+            width: 55vw;
+            height: 55vw;
+            border: 1px solid rgba(239, 43, 34, .12);
+            border-radius: 50%;
+            z-index: 0;
+        }
+
+        .cta h2 {
+            position: relative;
+            font-size: clamp(70px, 12vw, 190px);
+            line-height: .78;
+            letter-spacing: -.045em;
+            max-width: 1200px
+        }
+
+        .cta p {
+            position: relative;
+            color: #666
+        }
+
+        .cta .btn {
+            position: relative;
+            margin-top: 28px;
+            background: var(--red);
+            color: #111;
+            padding: 20px 34px
+        }
+
+        footer {
+            background: #fff;
+            color: #101114;
+            padding: 75px 4vw 30px
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1.4fr .6fr .8fr;
+            gap: 60px
+        }
+
+        .footer-brand h3 {
+            font-size: 48px
+        }
+
+        .footer-brand p {
+            color: #666;
+            max-width: 450px;
+            line-height: 1.7
+        }
+
+        .footer-col h4 {
+            font-size: 11px;
+            letter-spacing: .18em;
+            text-transform: uppercase;
+            color: #555;
+            margin-bottom: 20px
+        }
+
+        .footer-col a,
+        .footer-col p {
+            display: block;
+            color: #444;
+            margin: 10px 0;
+            font-size: 14px
+        }
+
+        .copyright {
+            border-top: 1px solid #242529;
+            margin-top: 60px;
+            padding-top: 25px;
+            color: #555;
+            font-size: 12px;
+            display: flex;
+            justify-content: space-between
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity .8s, transform .8s
+        }
+
+        .reveal.in {
+            opacity: 1;
+            transform: none
+        }
+
+        @media(max-width:900px) {
+
+            .nav-links,
+            .nav-cta {
+                display: none
+            }
+
+            .menu {
+                display: block
+            }
+
+            .hero h1 {
+                font-size: clamp(66px, 20vw, 120px)
+            }
+
+            .hero-bottom {
+                grid-template-columns: 1fr
+            }
+
+            .scroll-indicator {
+                display: none
+            }
+
+            .quick-stats {
+                grid-template-columns: 1fr 1fr
+            }
+
+            .quick-stat:nth-child(2) {
+                border-right: 0
+            }
+
+            .quick-stat:nth-child(-n+2) {
+                border-bottom: 1px solid rgba(255, 255, 255, .3)
+            }
+
+            .intro,
+            .story-panel {
+                grid-template-columns: 1fr
+            }
+
+            .intro-media {
+                min-height: 560px
+            }
+
+            .story-panel {
+                position: relative !important;
+                top: auto !important;
+                min-height: auto
+            }
+
+            .story-media {
+                height: 60vh
+            }
+
+            .use-grid,
+            .news-grid,
+            .number-grid {
+                grid-template-columns: 1fr 1fr
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr
+            }
+
+            .cursor {
+                display: none
+            }
+        }
+
+        @media(max-width:560px) {
+            .section {
+                padding: 85px 22px
+            }
+
+            .hero-content {
+                width: calc(100% - 44px)
+            }
+
+            .hero h1 {
+                font-size: 64px
+            }
+
+            .quick-stats,
+            .use-grid,
+            .news-grid,
+            .number-grid {
+                grid-template-columns: 1fr
+            }
+
+            .quick-stat,
+            .number {
+                border-right: 0;
+                border-bottom: 1px solid rgba(255, 255, 255, .25)
+            }
+
+            .section-head {
+                display: block
+            }
+
+            .section-head p {
+                margin-top: 25px
+            }
+
+            .intro-copy {
+                padding: 90px 25px
+            }
+
+            .story-copy {
+                padding: 75px 25px
+            }
+
+            .gallery-card {
+                width: 85vw;
+                height: 360px
+            }
+
+            .copyright {
+                display: block;
+                line-height: 1.8
+            }
+        }
+
+        @media(prefers-reduced-motion:reduce) {
+            * {
+                scroll-behavior: auto !important;
+                animation: none !important;
+                transition: none !important
+            }
+
+            .reveal {
+                opacity: 1;
+                transform: none
+            }
+        }
+    </style>
+
+    <style>
+        /* White-background theme overrides */
+        body {
+            background: #fff;
+            color: #101114
+        }
+
+        .nav {
+            color: #101114
+        }
+
+        .nav.scrolled {
+            background: rgba(255, 255, 255, .95);
+            color: #101114
+        }
+
+        .menu {
+            color: #101114
+        }
+
+        .intro-copy,
+        .story,
+        .story-panel,
+        .cta,
+        footer {
+            background: #fff;
+            color: #101114
+        }
+
+        .intro-copy p,
+        .story-copy p,
+        .cta p,
+        .footer-brand p,
+        .footer-col a,
+        .footer-col p {
+            color: #555
+        }
+
+        .story .section-head p {
+            color: #555
+        }
+
+        .story-panel {
+            border-top-color: rgba(16, 17, 20, .14)
+        }
+
+        .story-num {
+            color: var(--red)
+        }
+
+        .gallery-card {
+            background: #fff
+        }
+
+        .gallery-card span {
+            color: #fff
+        }
+
+        .use-card:hover {
+            background: #f1f1f1;
+            color: #101114
+        }
+
+        .use-card:hover p {
+            color: #555
+        }
+
+        .copyright {
+            border-top-color: #ddd;
+            color: #555
+        }
+
+        .footer-col h4 {
+            color: #555
+        }
+
+        .cta:before {
+            border-color: rgba(16, 17, 20, .12)
+        }
+
+        .cta .btn {
+            color: #111
+        }
+    </style>
+
+
+    <style>
+        /* Final white + red theme */
+        :root {
+            --red: #ef2b22;
+            --yellow: #ef2b22;
+            --paper: #fff;
+            --ink: #101114
+        }
+
+        body {
+            background: #fff;
+            color: #101114
+        }
+
+        .hero {
+            background: #fff
+        }
+
+        .hero-bg {
+            background: url('https://static.wixstatic.com/media/84770f_3ebbf7ac3e26427b83ca50c82aabaaf8~mv2.png/v1/fill/w_1920,h_950,al_c,q_90/84770f_3ebbf7ac3e26427b83ca50c82aabaaf8~mv2.png') center/cover no-repeat;
+        }
+
+        .hero-content {
+            color: #101114
+        }
+
+        .hero p {
+            color: rgba(16, 17, 20, .72)
+        }
+
+        .scroll-line {
+            background: rgba(16, 17, 20, .25)
+        }
+
+        .scroll-line:after {
+            background: #ef2b22
+        }
+
+        .hero h1 em,
+        .accent,
+        .story-num {
+            color: #ef2b22
+        }
+
+        .floating-label {
+            background: #ef2b22;
+            color: #fff
+        }
+
+        .gallery {
+            background: #ef2b22
+        }
+
+        .cta .btn {
+            background: #ef2b22;
+            color: #fff
+        }
+    </style>
+
+    <style>
+        /* Automotive wheel CTA */
+        .cta {
+            position: relative;
+            overflow: hidden;
+            isolation: isolate;
+        }
+
+        .cta:before {
+            content: "";
+            position: absolute;
+            width: 47vw;
+            height: 47vw;
+            border: 1px solid rgba(239, 43, 34, .12);
+            border-radius: 50%;
+            z-index: 0;
+        }
+
+        .cta:after {
+            content: "";
+            position: absolute;
+            width: 47vw;
+            height: 47vw;
+            border-radius: 50%;
+            background:
+                radial-gradient(circle,
+                    transparent 0 18%,
+                    rgba(239, 43, 34, .35) 18.5% 19%,
+                    transparent 19.5% 35%,
+                    rgba(239, 43, 34, .5) 35.5% 36%,
+                    transparent 36.5%);
+            border: 2px solid rgba(239, 43, 34, .55);
+            mask: conic-gradient(from 0deg,
+                    #000 0deg 8deg, transparent 8deg 22deg,
+                    #000 22deg 30deg, transparent 30deg 45deg,
+                    #000 45deg 53deg, transparent 53deg 68deg,
+                    #000 68deg 76deg, transparent 76deg 90deg,
+                    #000 90deg 98deg, transparent 98deg 113deg,
+                    #000 113deg 121deg, transparent 121deg 136deg,
+                    #000 136deg 144deg, transparent 144deg 159deg,
+                    #000 159deg 167deg, transparent 167deg 182deg,
+                    #000 182deg 190deg, transparent 190deg 205deg,
+                    #000 205deg 213deg, transparent 213deg 228deg,
+                    #000 228deg 236deg, transparent 236deg 251deg,
+                    #000 251deg 259deg, transparent 259deg 274deg,
+                    #000 274deg 282deg, transparent 282deg 297deg,
+                    #000 297deg 305deg, transparent 305deg 320deg,
+                    #000 320deg 328deg, transparent 328deg 343deg,
+                    #000 343deg 351deg, transparent 351deg);
+            filter:
+                drop-shadow(0 0 6px rgba(239, 43, 34, .9)) drop-shadow(0 0 18px rgba(239, 43, 34, .65)) drop-shadow(0 0 35px rgba(239, 43, 34, .35));
+            animation: wheelRotate 18s linear infinite;
+            z-index: 0;
+        }
+
+        .cta>div {
+            position: relative;
+            z-index: 2;
+        }
+
+        @keyframes wheelRotate {
+            from {
+                transform: rotate(0deg)
+            }
+
+            to {
+                transform: rotate(360deg)
+            }
+        }
+
+        @media(max-width:560px) {
+            .cta:before {
+                width: 125vw;
+                height: 125vw
+            }
+
+            .cta:after {
+                width: 115vw;
+                height: 115vw
+            }
+        }
+    </style>
+
+    <style>
+        /* Final hero: no black/white overlay gradient */
+        .hero-bg {
+            background-image: url('https://static.wixstatic.com/media/84770f_3ebbf7ac3e26427b83ca50c82aabaaf8~mv2.png/v1/fill/w_1920,h_950,al_c,q_90/84770f_3ebbf7ac3e26427b83ca50c82aabaaf8~mv2.png') !important;
+            background-position: center !important;
+            background-size: cover !important;
+            background-repeat: no-repeat !important;
+        }
+    </style>
+
+
+    <style>
+        /* Final hero cleanup: mask the dark area baked into the hero image */
+        .hero-bg {
+            position: absolute !important;
+            inset: 0 !important;
+            background-image: url('https://static.wixstatic.com/media/84770f_3ebbf7ac3e26427b83ca50c82aabaaf8~mv2.png/v1/fill/w_1920,h_950,al_c,q_90/84770f_3ebbf7ac3e26427b83ca50c82aabaaf8~mv2.png') !important;
+            background-position: center !important;
+            background-size: cover !important;
+            background-repeat: no-repeat !important;
+            transform: scale(1.08) !important;
+        }
+
+        .hero-bg:after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            background: linear-gradient(90deg,
+                    rgba(255, 255, 255, .98) 0%,
+                    rgba(255, 255, 255, .92) 18%,
+                    rgba(255, 255, 255, .55) 38%,
+                    rgba(255, 255, 255, .12) 58%,
+                    rgba(255, 255, 255, 0) 72%);
+        }
+
+        .hero-noise {
+            display: none !important
+        }
+    </style>
+
+
+    <style>
+        /* HERO — clean white/red treatment, hiding the dark baked-in image area */
+        .hero {
+            background: #fff !important;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-bg {
+            position: absolute !important;
+            inset: 0 !important;
+            background-image: url('https://static.wixstatic.com/media/84770f_3ebbf7ac3e26427b83ca50c82aabaaf8~mv2.png/v1/fill/w_1920,h_950,al_c,q_90/84770f_3ebbf7ac3e26427b83ca50c82aabaaf8~mv2.png') !important;
+            background-position: center !important;
+            background-size: cover !important;
+            background-repeat: no-repeat !important;
+            transform: scale(1.08) !important;
+        }
+
+        /* White mask over the baked-in dark portion */
+        .hero-bg:after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            background:
+                linear-gradient(90deg,
+                    #fff 0%,
+                    #fff 43%,
+                    rgba(255, 255, 255, .98) 50%,
+                    rgba(255, 255, 255, .90) 58%,
+                    rgba(255, 255, 255, .68) 66%,
+                    rgba(255, 255, 255, .30) 76%,
+                    rgba(255, 255, 255, 0) 88%);
+            z-index: 1;
+        }
+
+        /* Keep hero content above the mask */
+        .hero-content {
+            position: relative !important;
+            z-index: 3 !important;
+            color: #101114 !important;
+        }
+
+        .hero p {
+            color: #555 !important;
+        }
+    </style>
+
+
+    <style>
+        /* HERO — pure white background */
+        .hero {
+            background: #fff !important;
+            position: relative !important;
+            overflow: hidden !important;
+        }
+
+        .hero-bg {
+            background: #fff !important;
+            background-image: none !important;
+            background-color: #fff !important;
+            transform: none !important;
+        }
+
+        .hero-bg:before,
+        .hero-bg:after {
+            content: none !important;
+            display: none !important;
+        }
+
+        .hero-noise {
+            display: none !important;
+            opacity: 0 !important;
+        }
+
+        .hero-content {
+            position: relative !important;
+            z-index: 3 !important;
+            color: #101114 !important;
+        }
+
+        .hero h1 {
+            color: #101114 !important;
+        }
+
+        .hero h1 em {
+            color: #ef2b22 !important;
+        }
+
+        .hero p {
+            color: #555 !important;
+        }
+    </style>
+
+
+    <style>
+        /* Final footer + readability adjustments */
+        footer {
+            background: #ef2b22 !important;
+            color: #fff !important;
+        }
+
+        .footer-brand h3 {
+            color: #101114 !important;
+        }
+
+        .footer-brand p,
+        .footer-col h4,
+        .footer-col a,
+        .footer-col p {
+            color: #fff !important;
+        }
+
+        .copyright {
+            border-top-color: rgba(255, 255, 255, .35) !important;
+            color: #fff !important;
+        }
+
+        .gallery .section-head p {
+            color: #fff !important;
+        }
+    </style>
+
+
+    <style>
+        /* Hero — Optimized compact electric commercial vehicle scene */
+        .hero {
+            isolation: isolate;
+            overflow: hidden;
+        }
+
+        .hero-vehicle-scene {
+            position: absolute;
+            z-index: 2;
+            right: 4vw;
+            bottom: 11vh;
+            width: min(34vw, 480px);
+            height: min(28vh, 300px);
+            pointer-events: none;
+            opacity: 0;
+            transform: translateX(35px);
+            animation: heroSceneIn .9s cubic-bezier(.2, .75, .2, 1) .25s forwards;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hero-road {
+            position: absolute;
+            left: 2%;
+            right: 2%;
+            bottom: 8%;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, rgba(16, 17, 20, .10), rgba(16, 17, 20, .16), transparent);
+            transform: skewX(-14deg);
+            overflow: hidden;
+        }
+
+        .road-line {
+            position: absolute;
+            top: 0;
+            width: 70px;
+            height: 2px;
+            background: #ef2b22;
+            opacity: .55;
+            animation: roadMove 1.8s linear infinite;
+        }
+
+        .road-line-1 {
+            left: 5%;
+        }
+
+        .road-line-2 {
+            left: 35%;
+            animation-delay: -.65s;
+        }
+
+        .road-line-3 {
+            left: 65%;
+            animation-delay: -1.2s;
+        }
+
+        .road-line-4 {
+            left: 90%;
+            animation-delay: -.3s;
+        }
+
+        .vehicle-glow {
+            position: absolute;
+            width: 60%;
+            height: 28%;
+            right: 20%;
+            bottom: 12%;
+            background: radial-gradient(ellipse, rgba(239, 43, 34, .15), transparent 68%);
+            filter: blur(10px);
+            animation: vehiclePulse 4s ease-in-out infinite;
+        }
+
+        .vehicle-spec {
+            position: absolute;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            padding-left: 12px;
+            border-left: 3px solid #ef2b22;
+            color: #151719;
+            text-transform: uppercase;
+            animation: specFloat 4s ease-in-out infinite;
+            z-index: 5;
+        }
+
+        /* Increased font sizes for payload and range specifications */
+        .vehicle-spec b {
+            font: 900 28px/.85 'Barlow Condensed';
+        }
+
+        .vehicle-spec span {
+            font: 800 10px/1.2 Inter, sans-serif;
+            letter-spacing: .16em;
+            color: #444;
+        }
+
+        .spec-load {
+            right: -18px;
+            top: 25%;
+        }
+
+        .spec-range {
+            left: -5px;
+            top: -10%;
+            animation-delay: -.8s;
+        }
+
+        .spec-ev {
+            display: none;
+        }
+
+        @keyframes heroSceneIn {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes roadMove {
+            from {
+                transform: translateX(-120px);
+                opacity: 0;
+            }
+
+            15% {
+                opacity: .55;
+            }
+
+            to {
+                transform: translateX(520px);
+                opacity: 0;
+            }
+        }
+
+        @keyframes vehiclePulse {
+
+            0%,
+            100% {
+                opacity: .45;
+                transform: scale(.97);
+            }
+
+            50% {
+                opacity: .9;
+                transform: scale(1.03);
+            }
+        }
+
+        @keyframes specFloat {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-4px);
+            }
+        }
+
+        @media (max-width:900px) {
+            .hero-vehicle-scene {
+                right: 2vw;
+                bottom: 6vh;
+                width: 52vw;
+                height: 32vh;
+            }
+
+            .vehicle-spec b {
+                font-size: 22px;
+            }
+
+            .vehicle-spec span {
+                font-size: 9px;
+            }
+        }
+
+        /* Mobile hero vehicle fix */
+        @media (max-width: 560px) {
+
+            .hero {
+                min-height: auto !important;
+                height: auto !important;
+                display: block !important;
+            }
+
+            .hero-content {
+                position: relative;
+                z-index: 5;
+                padding-top: 10px;
+                padding-bottom: 150px;
+            }
+
+            .hero h1 {
+                font-size: 64px;
+                line-height: .82;
+                margin-bottom: 24px;
+            }
+
+            .hero-bottom {
+                position: relative;
+                z-index: 5;
+            }
+
+            .hero-vehicle-scene {
+                z-index: 1;
+                right: 0;
+                left: 0;
+                bottom: 0;
+                width: 100%;
+                height: 170px;
+                opacity: .9;
+                overflow: hidden;
+                transform: translateY(20px);
+            }
+
+            .realistic-ev {
+                width: 88% !important;
+                height: 100% !important;
+                margin: 0 auto;
+            }
+
+            .vehicle-svg {
+                width: 100%;
+                height: 100%;
+                max-height: 170px;
+                overflow: hidden;
+            }
+
+            .vehicle-spec {
+                font-size: 8px;
+            }
+
+            .vehicle-spec b {
+                font-size: 16px;
+            }
+
+            .vehicle-spec span {
+                font-size: 7px;
+            }
+
+            .spec-range {
+                left: auto;
+                right: 8%;
+                top: 0;
+            }
+
+            .spec-load {
+                right: 4%;
+                top: 30%;
+            }
+
+            .hero-road {
+                bottom: 8%;
+            }
+        }
+
+        @media (prefers-reduced-motion:reduce) {
+
+            .hero-vehicle-scene,
+            .road-line,
+            .vehicle-glow,
+            .vehicle-spec {
+                animation: none !important;
+            }
+
+            .hero-vehicle-scene {
+                opacity: 1;
+                transform: none;
+            }
+        }
+
+        @media (max-width:900px) {
+
+            .nav {
+                position: relative;
+            }
+
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 82px;
+                left: 0;
+                right: 0;
+                background: #fff;
+                flex-direction: column;
+                padding: 20px;
+                gap: 18px;
+                box-shadow: 0 10px 20px rgba(0, 0, 0, .15);
+                z-index: 999;
+            }
+
+            .nav-links.open {
+                display: flex;
+            }
+
+            .nav-cta {
+                display: none;
+            }
+
+            .menu {
+                display: block;
+                cursor: pointer;
+            }
+        }
+    </style>
+
+
+    <style>
+        /* Realistic vector EV treatment — Symmetrical & Scaled */
+        .realistic-ev {
+            position: relative !important;
+            right: auto !important;
+            bottom: auto !important;
+            width: 100% !important;
+            height: 100% !important;
+            filter: none !important;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .vehicle-svg {
+            width: 100%;
+            height: 100%;
+            max-height: 100%;
+            overflow: visible;
+            display: block;
+            animation: realisticVehicleFloat 4.5s ease-in-out infinite;
+            transform-origin: 50% 50%;
+        }
+
+        .realistic-ev+.vehicle-spec {
+            z-index: 3;
+        }
+
+        /* Smooth continuous wheel rotation for forward vehicle movement (Counter-Clockwise since vehicle faces left) */
+        #rearWheel {
+            transform-origin: 750px 425px;
+            animation: spinWheel 0.65s linear infinite;
+        }
+
+        #frontWheel {
+            transform-origin: 220px 425px;
+            animation: spinWheel 0.65s linear infinite;
+        }
+
+        @keyframes spinWheel {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(-360deg);
+            }
+        }
+
+        @keyframes realisticVehicleFloat {
+
+            0%,
+            100% {
+                transform: translate3d(0, 0, 0);
+            }
+
+            50% {
+                transform: translate3d(0, -4px, 0);
+            }
+        }
+
+        @media(max-width:900px) {
+            .realistic-ev {
+                width: 100% !important;
+                height: 100% !important;
+            }
+        }
+
+        @media(max-width:560px) {
+            .realistic-ev {
+                width: 100% !important;
+                height: 100% !important;
+            }
+        }
+
+        @media(prefers-reduced-motion:reduce) {
+
+            .vehicle-svg,
+            #rearWheel,
+            #frontWheel {
+                animation: none !important;
+            }
+        }
+
+        @media (min-width: 901px) {
+            .hero-vehicle-scene {
+                width: min(34vw, 480px);
+                right: 4vw;
+                bottom: 10vh;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="loader"><b>VISION<span>.</span></b></div>
+    <div class="cursor"></div>
+    <header class="nav"><a class="brand" href="#top"><span class="brand-mark">V</span><span>Vision Innovative
+                Products</span></a>
+        <nav class="nav-links">
+            <a href="home.html">Home</a>
+            <a href="about.html">About Us</a>
+            <a href="products.html">Products</a>
+            <a href="contact.html">Contact</a>
+        </nav>
+        <a class="nav-cta" href="#contact.html">Get Custom Quote →</a><button class="menu" aria-label="Menu">☰</button>
+    </header>
+    <main id="top">
+        <section class="hero">
+            <div class="hero-bg"></div>
+            <div class="hero-vehicle-scene" aria-hidden="true">
+                <div class="hero-road">
+                    <span class="road-line road-line-1"></span>
+                    <span class="road-line road-line-2"></span>
+                    <span class="road-line road-line-3"></span>
+                    <span class="road-line road-line-4"></span>
+                </div>
+
+                <div class="vehicle-glow"></div>
+
+                <div class="hero-vehicle realistic-ev">
+                    <svg class="vehicle-svg" viewBox="0 0 1000 560" role="img"
+                        aria-label="Realistic electric commercial cargo three-wheeler">
+                        <defs>
+                            <!-- Contact Shadows & Glow Filters -->
+                            <filter id="contactShadow" x="-20%" y="-20%" width="140%" height="140%">
+                                <feGaussianBlur stdDeviation="7" />
+                            </filter>
+                            <filter id="softGlow" x="-50%" y="-50%" width="200%" height="200%">
+                                <feGaussianBlur stdDeviation="4" result="blur" />
+                                <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                            </filter>
+
+                            <!-- Metallic Paint Gradients -->
+                            <linearGradient id="bodyBase" x1="0%" y1="0%" x2="0%" y2="100%">
+                                <stop offset="0%" stop-color="#ffffff" />
+                                <stop offset="25%" stop-color="#f0f3f5" />
+                                <stop offset="70%" stop-color="#d1d7dc" />
+                                <stop offset="100%" stop-color="#a3aab0" />
+                            </linearGradient>
+
+                            <linearGradient id="bodyHighlight" x1="0%" y1="0%" x2="100%" y2="0%">
+                                <stop offset="0%" stop-color="#ffffff" stop-opacity="0.9" />
+                                <stop offset="50%" stop-color="#ffffff" stop-opacity="0.2" />
+                                <stop offset="100%" stop-color="#7a858e" stop-opacity="0.5" />
+                            </linearGradient>
+
+                            <linearGradient id="redAccent" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#ff3b30" />
+                                <stop offset="50%" stop-color="#ef2b22" />
+                                <stop offset="100%" stop-color="#990000" />
+                            </linearGradient>
+
+                            <!-- Automotive Tinted Glass -->
+                            <linearGradient id="glassGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#2a3540" />
+                                <stop offset="40%" stop-color="#151d24" />
+                                <stop offset="100%" stop-color="#090d12" />
+                            </linearGradient>
+
+                            <linearGradient id="glassReflection" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#ffffff" stop-opacity="0.45" />
+                                <stop offset="30%" stop-color="#ffffff" stop-opacity="0.05" />
+                                <stop offset="100%" stop-color="#000000" stop-opacity="0.6" />
+                            </linearGradient>
+
+                            <!-- Dark Molded Plastic Trim -->
+                            <linearGradient id="darkTrim" x1="0%" y1="0%" x2="0%" y2="100%">
+                                <stop offset="0%" stop-color="#32373b" />
+                                <stop offset="50%" stop-color="#1e2124" />
+                                <stop offset="100%" stop-color="#121416" />
+                            </linearGradient>
+
+                            <linearGradient id="batteryGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                                <stop offset="0%" stop-color="#2c3136" />
+                                <stop offset="100%" stop-color="#151719" />
+                            </linearGradient>
+
+                            <!-- Tire & Rim Gradients -->
+                            <radialGradient id="tireRubber" cx="40%" cy="40%" r="60%">
+                                <stop offset="0%" stop-color="#484f56" />
+                                <stop offset="50%" stop-color="#23272a" />
+                                <stop offset="85%" stop-color="#111315" />
+                                <stop offset="100%" stop-color="#08090a" />
+                            </radialGradient>
+
+                            <radialGradient id="rimMetallic" cx="35%" cy="35%" r="65%">
+                                <stop offset="0%" stop-color="#ffffff" />
+                                <stop offset="35%" stop-color="#d1d6da" />
+                                <stop offset="70%" stop-color="#727a82" />
+                                <stop offset="100%" stop-color="#2a2e33" />
+                            </radialGradient>
+
+                            <linearGradient id="chromeLight" x1="0%" y1="0%" x2="100%" y2="0%">
+                                <stop offset="0%" stop-color="#9aa0a6" />
+                                <stop offset="20%" stop-color="#ffffff" />
+                                <stop offset="50%" stop-color="#7d848a" />
+                                <stop offset="80%" stop-color="#ffffff" />
+                                <stop offset="100%" stop-color="#565c62" />
+                            </linearGradient>
+                        </defs>
+
+                        <!-- Ground Contact Shadows -->
+                        <ellipse cx="490" cy="468" rx="420" ry="22" fill="#050709" opacity="0.35"
+                            filter="url(#contactShadow)" />
+                        <ellipse cx="220" cy="472" rx="65" ry="8" fill="#000" opacity="0.75"
+                            filter="url(#contactShadow)" />
+                        <ellipse cx="750" cy="472" rx="70" ry="8" fill="#000" opacity="0.75"
+                            filter="url(#contactShadow)" />
+                        <ellipse cx="480" cy="470" rx="200" ry="6" fill="#000" opacity="0.5"
+                            filter="url(#contactShadow)" />
+
+                        <!-- Undercarriage & Chassis -->
+                        <rect x="180" y="415" width="670" height="20" rx="3" fill="url(#darkTrim)" stroke="#0d0e10"
+                            stroke-width="1.5" />
+                        <path d="M680 432 Q750 445 820 432 L810 422 Q750 433 690 422 Z" fill="#181a1c" stroke="#000"
+                            stroke-width="1" />
+                        <rect x="740" y="418" width="20" height="22" rx="2" fill="#353b40" />
+
+                        <!-- EV Battery Pack Enclosure -->
+                        <rect x="330" y="405" width="330" height="28" rx="5" fill="url(#batteryGrad)" stroke="#101214"
+                            stroke-width="2" />
+                        <rect x="335" y="408" width="320" height="4" fill="#3f464d" opacity="0.6" />
+                        <path d="M340 424 L655 424" stroke="#ef2b22" stroke-width="2.5" stroke-dasharray="25 6" />
+
+                        <!-- Wheels -->
+                        <!-- Rear Wheel Assembly -->
+                        <g id="rearWheel">
+                            <circle cx="750" cy="425" r="52" fill="url(#tireRubber)" stroke="#0d0e10"
+                                stroke-width="3" />
+                            <circle cx="750" cy="425" r="48" fill="none" stroke="#1c2023" stroke-width="4"
+                                stroke-dasharray="10 6" />
+                            <circle cx="750" cy="425" r="42" fill="none" stroke="#2a2f34" stroke-width="1.5" />
+                            <circle cx="750" cy="425" r="36" fill="url(#rimMetallic)" stroke="#121416"
+                                stroke-width="2" />
+                            <circle cx="750" cy="425" r="31" fill="#1b1e21" />
+                            <g stroke="#0e1012" stroke-width="1">
+                                <path d="M750 396 L756 413 L744 413 Z" fill="url(#chromeLight)" />
+                                <path d="M778 416 L762 422 L755 412 Z" fill="url(#chromeLight)" />
+                                <path d="M767 448 L756 436 L764 427 Z" fill="url(#chromeLight)" />
+                                <path d="M733 448 L736 427 L744 436 Z" fill="url(#chromeLight)" />
+                                <path d="M722 416 L745 412 L738 422 Z" fill="url(#chromeLight)" />
+                            </g>
+                            <circle cx="750" cy="425" r="11" fill="url(#chromeLight)" stroke="#1a1d20"
+                                stroke-width="1.5" />
+                            <circle cx="750" cy="425" r="6" fill="#ef2b22" />
+                            <circle cx="750" cy="418" r="1.8" fill="#ffffff" />
+                            <circle cx="757" cy="423" r="1.8" fill="#ffffff" />
+                            <circle cx="754" cy="430" r="1.8" fill="#ffffff" />
+                            <circle cx="746" cy="430" r="1.8" fill="#ffffff" />
+                            <circle cx="743" cy="423" r="1.8" fill="#ffffff" />
+                        </g>
+
+                        <!-- Front Wheel Assembly -->
+                        <g id="frontWheel">
+                            <circle cx="220" cy="425" r="52" fill="url(#tireRubber)" stroke="#0d0e10"
+                                stroke-width="3" />
+                            <circle cx="220" cy="425" r="48" fill="none" stroke="#1c2023" stroke-width="4"
+                                stroke-dasharray="10 6" />
+                            <circle cx="220" cy="425" r="42" fill="none" stroke="#2a2f34" stroke-width="1.5" />
+                            <circle cx="220" cy="425" r="36" fill="url(#rimMetallic)" stroke="#121416"
+                                stroke-width="2" />
+                            <circle cx="220" cy="425" r="31" fill="#1b1e21" />
+                            <g stroke="#0e1012" stroke-width="1">
+                                <path d="M220 396 L226 413 L214 413 Z" fill="url(#chromeLight)" />
+                                <path d="M248 416 L232 422 L225 412 Z" fill="url(#chromeLight)" />
+                                <path d="M237 448 L226 436 L234 427 Z" fill="url(#chromeLight)" />
+                                <path d="M203 448 L206 427 L214 436 Z" fill="url(#chromeLight)" />
+                                <path d="M192 416 L215 412 L208 422 Z" fill="url(#chromeLight)" />
+                            </g>
+                            <circle cx="220" cy="425" r="11" fill="url(#chromeLight)" stroke="#1a1d20"
+                                stroke-width="1.5" />
+                            <circle cx="220" cy="425" r="6" fill="#ef2b22" />
+                            <circle cx="220" cy="418" r="1.8" fill="#ffffff" />
+                            <circle cx="227" cy="423" r="1.8" fill="#ffffff" />
+                            <circle cx="224" cy="430" r="1.8" fill="#ffffff" />
+                            <circle cx="216" cy="430" r="1.8" fill="#ffffff" />
+                            <circle cx="213" cy="423" r="1.8" fill="#ffffff" />
+                        </g>
+
+                        <!-- Cargo Box Body -->
+                        <g id="cargoBox">
+                            <path d="M385 190 L865 190 Q875 190 878 200 L885 390 Q887 400 875 402 L385 402 Z"
+                                fill="#181b1e" />
+                            <path d="M390 193 L860 193 Q868 193 870 201 L878 395 Q880 400 870 400 L390 400 Z"
+                                fill="url(#bodyBase)" stroke="#121416" stroke-width="2" />
+
+                            <!-- Aluminum Corner Trim -->
+                            <path d="M388 193 L862 193 L864 203 L388 203 Z" fill="url(#chromeLight)" stroke="#3a4045"
+                                stroke-width="0.8" />
+                            <path d="M858 193 L872 197 L880 396 L866 396 Z" fill="url(#darkTrim)" stroke="#0d0f10"
+                                stroke-width="1" />
+                            <path d="M388 390 L872 390 L870 400 L388 400 Z" fill="url(#darkTrim)" />
+
+                            <!-- Structural Corrugated Ribs -->
+                            <g stroke="#9aa2a8" stroke-width="1.5">
+                                <rect x="430" y="205" width="70" height="175" rx="3" fill="#e2e7eb" stroke="#a4acb3"
+                                    stroke-width="1.5" />
+                                <line x1="432" y1="207" x2="432" y2="378" stroke="#ffffff" stroke-width="2" />
+                                <line x1="498" y1="207" x2="498" y2="378" stroke="#7a8288" stroke-width="1.5" />
+
+                                <rect x="520" y="205" width="70" height="175" rx="3" fill="#e2e7eb" stroke="#a4acb3"
+                                    stroke-width="1.5" />
+                                <line x1="522" y1="207" x2="522" y2="378" stroke="#ffffff" stroke-width="2" />
+                                <line x1="588" y1="207" x2="588" y2="378" stroke="#7a8288" stroke-width="1.5" />
+
+                                <rect x="610" y="205" width="70" height="175" rx="3" fill="#e2e7eb" stroke="#a4acb3"
+                                    stroke-width="1.5" />
+                                <line x1="612" y1="207" x2="612" y2="378" stroke="#ffffff" stroke-width="2" />
+                                <line x1="678" y1="207" x2="678" y2="378" stroke="#7a8288" stroke-width="1.5" />
+
+                                <rect x="700" y="205" width="70" height="175" rx="3" fill="#e2e7eb" stroke="#a4acb3"
+                                    stroke-width="1.5" />
+                                <line x1="702" y1="207" x2="702" y2="378" stroke="#ffffff" stroke-width="2" />
+                                <line x1="768" y1="207" x2="768" y2="378" stroke="#7a8288" stroke-width="1.5" />
+
+                                <rect x="790" y="205" width="55" height="175" rx="3" fill="#dce1e6" stroke="#a4acb3"
+                                    stroke-width="1.5" />
+                                <line x1="792" y1="207" x2="792" y2="378" stroke="#ffffff" stroke-width="2" />
+                                <line x1="843" y1="207" x2="843" y2="378" stroke="#7a8288" stroke-width="1.5" />
+                            </g>
+
+                            <!-- Red Branding Stripe -->
+                            <path d="M388 340 L872 340 L871 352 L388 352 Z" fill="url(#redAccent)" />
+                            <line x1="388" y1="339" x2="872" y2="339" stroke="#ffffff" stroke-width="2" opacity="0.9" />
+
+                            <!-- Enlarged VISION branding text -->
+                            <text x="690" y="322" font-family="'Barlow Condensed', sans-serif" font-size="32"
+                                font-weight="900" letter-spacing="4" fill="#1b1e21">VISION</text>
+                            <text x="692" y="335" font-family="Inter, sans-serif" font-size="10.5" font-weight="800"
+                                letter-spacing="3" fill="#ef2b22">ELECTRIC CARGO</text>
+
+                            <!-- Reflectors & Rear Light -->
+                            <rect x="400" y="365" width="16" height="8" rx="2" fill="#ff9500" stroke="#b36b00"
+                                stroke-width="1" />
+                            <rect x="840" y="365" width="16" height="8" rx="2" fill="#ff3b30" stroke="#990000"
+                                stroke-width="1" />
+                            <path d="M874 355 L881 356 L880 385 L873 384 Z" fill="#ef2b22" stroke="#800000"
+                                stroke-width="1" />
+                            <path d="M874 358 L880 359 L880 368 L874 367 Z" fill="#ffffff" opacity="0.9" />
+
+                            <!-- Rear Fender -->
+                            <path d="M680 400 Q750 360 820 400 L828 408 Q750 368 672 408 Z" fill="url(#darkTrim)"
+                                stroke="#0e1012" stroke-width="1.5" />
+                        </g>
+
+                        <!-- Driver Cab -->
+                        <g id="driverCab">
+                            <!-- Main Cabin Body -->
+                            <path
+                                d="M105 380 L112 320 Q122 280 148 230 L215 130 Q230 108 260 105 L370 110 Q392 112 395 135 L398 400 L180 400 Q140 400 120 395 Z"
+                                fill="url(#bodyBase)" stroke="#15181a" stroke-width="2.5" />
+
+                            <!-- Roof Overlay -->
+                            <path d="M225 125 Q245 106 275 106 L368 110 Q388 112 392 128 L392 140 L220 135 Z"
+                                fill="#f8fafb" stroke="#cfd5da" stroke-width="1" />
+                            <path d="M230 112 L368 113" stroke="#ffffff" stroke-width="3" />
+
+                            <!-- Body Panel Gaps -->
+                            <path d="M112 320 Q160 315 220 322 L225 400" fill="none" stroke="#7a838b" stroke-width="1.8"
+                                opacity="0.75" />
+                            <path d="M220 180 L220 322 Q222 395 225 400" fill="none" stroke="#5a6167"
+                                stroke-width="2" />
+                            <path d="M220 180 L392 180" fill="none" stroke="#5a6167" stroke-width="1.5" />
+                            <path d="M392 180 L395 400" fill="none" stroke="#5a6167" stroke-width="2" />
+
+                            <!-- Front Wheel Arch Flare -->
+                            <path d="M150 400 Q220 355 285 400 L292 405 Q220 348 142 405 Z" fill="url(#darkTrim)"
+                                stroke="#0b0d0e" stroke-width="1.5" />
+
+                            <!-- Side Window & Glass -->
+                            <path d="M232 135 L360 138 Q378 140 380 155 L382 250 Q382 260 370 262 L232 262 Z"
+                                fill="url(#glassGrad)" stroke="#121518" stroke-width="2" />
+                            <path d="M232 135 L360 138 Q378 140 380 155 L382 250 Z" fill="url(#glassReflection)" />
+                            <path d="M250 142 L340 145 L280 255 L240 255 Z" fill="#ffffff" opacity="0.12" />
+                            <path d="M300 143 L365 145 L325 255 L290 255 Z" fill="#ffffff" opacity="0.08" />
+                            <path d="M230 133 L362 136 Q382 138 384 156 L385 264 L230 264 Z" fill="none"
+                                stroke="#1d2125" stroke-width="3" />
+
+                            <rect x="370" y="142" width="10" height="115" fill="#090b0d" opacity="0.7" />
+                            <path d="M320 190 Q335 185 342 200 L345 240 L315 240 Z" fill="#14181c" opacity="0.85" />
+
+                            <!-- Door Handle -->
+                            <rect x="245" y="278" width="36" height="12" rx="4" fill="url(#darkTrim)" stroke="#687077"
+                                stroke-width="1.2" />
+                            <rect x="249" y="282" width="22" height="4" rx="1" fill="#0d0e10" />
+
+                            <!-- Front Windshield Side Edge -->
+                            <path d="M148 230 L215 130 Q225 115 240 115 L232 135 L165 235 Z" fill="url(#glassGrad)"
+                                stroke="#121518" stroke-width="1.5" />
+                            <path d="M152 228 L212 135 L222 135 L162 230 Z" fill="#ffffff" opacity="0.25" />
+
+                            <!-- Side Mirror -->
+                            <path d="M210 242 L185 248 L188 256 L212 250 Z" fill="#181a1c" stroke="#0d0e0f"
+                                stroke-width="1" />
+                            <path d="M162 232 Q190 228 198 245 L192 262 Q165 265 158 248 Z" fill="url(#darkTrim)"
+                                stroke="#0e1012" stroke-width="1.5" />
+                            <path d="M165 235 Q188 232 194 245" fill="none" stroke="#ffffff" stroke-width="1.5"
+                                opacity="0.6" />
+                            <path d="M168 248 L188 246" stroke="#ff9500" stroke-width="2" stroke-linecap="round" />
+
+                            <!-- Front Fascia & LED Headlight Housing -->
+                            <path d="M110 320 Q122 280 148 230 L160 234 Q136 280 125 320 Z" fill="url(#bodyHighlight)"
+                                opacity="0.8" />
+                            <path d="M115 328 L175 322 L172 358 L118 360 Z" fill="#101214" stroke="#2d3237"
+                                stroke-width="2" />
+
+                            <!-- Dual Projector Lenses & C-LED DRL -->
+                            <circle cx="132" cy="342" r="7" fill="url(#chromeLight)" stroke="#000" stroke-width="1" />
+                            <circle cx="132" cy="342" r="4" fill="#e6f7ff" filter="url(#softGlow)" />
+                            <circle cx="132" cy="342" r="2" fill="#ffffff" />
+
+                            <circle cx="152" cy="341" r="7" fill="url(#chromeLight)" stroke="#000" stroke-width="1" />
+                            <circle cx="152" cy="341" r="4" fill="#e6f7ff" filter="url(#softGlow)" />
+                            <circle cx="152" cy="341" r="2" fill="#ffffff" />
+
+                            <path d="M122 334 L165 330 Q168 342 165 352 L122 354" fill="none" stroke="#ffffff"
+                                stroke-width="2.5" stroke-linecap="round" filter="url(#softGlow)" />
+                            <rect x="122" y="350" width="14" height="4" rx="1" fill="#ff9500" filter="url(#softGlow)" />
+
+                            <!-- Grille Accent Line -->
+                            <path d="M122 368 L210 365 L210 374 L124 376 Z" fill="url(#darkTrim)" stroke="#090a0b"
+                                stroke-width="1" />
+                            <line x1="124" y1="371" x2="208" y2="369" stroke="#ef2b22" stroke-width="2" />
+
+                            <!-- Front Bumper & Skid Plate -->
+                            <path d="M92 380 Q105 375 145 377 L220 378 Q225 398 215 402 L100 402 Q90 400 92 380 Z"
+                                fill="url(#darkTrim)" stroke="#08090a" stroke-width="2" />
+                            <path d="M96 384 L212 383" stroke="#485056" stroke-width="1.5" />
+                            <path d="M120 402 L195 402 L190 412 L125 412 Z" fill="url(#chromeLight)" stroke="#1a1d20"
+                                stroke-width="1" />
+
+                            <!-- Cabin Side Step -->
+                            <rect x="235" y="398" width="85" height="10" rx="2" fill="url(#darkTrim)" stroke="#000"
+                                stroke-width="1.5" />
+                            <line x1="240" y1="403" x2="315" y2="403" stroke="#727a80" stroke-width="2"
+                                stroke-dasharray="4 3" />
+
+                            <!-- EV Identity Details -->
+                            <g id="chargingPort">
+                                <rect x="330" y="340" width="28" height="22" rx="4" fill="#1d2124" stroke="#485056"
+                                    stroke-width="1.5" />
+                                <circle cx="344" cy="351" r="5" fill="none" stroke="#ef2b22" stroke-width="1.5" />
+                                <path d="M343 348 L342 352 L346 350 L344 354" fill="none" stroke="#ef2b22"
+                                    stroke-width="1.2" stroke-linecap="round" />
+                            </g>
+
+                            <rect x="235" y="330" width="46" height="15" rx="2" fill="url(#darkTrim)" stroke="#808a92"
+                                stroke-width="1" />
+                            <!-- Enlarged cabin door badge text -->
+                            <text x="239" y="341" font-family="Inter, sans-serif" font-size="10" font-weight="900"
+                                letter-spacing="1" fill="#ffffff">VISION</text>
+                            <text x="268" y="341" font-family="Inter, sans-serif" font-size="10" font-weight="900"
+                                fill="#ef2b22">EV</text>
+
+                            <!-- Specular Edge Glints -->
+                            <path d="M152 228 Q220 120 260 108 L368 112" fill="none" stroke="#ffffff" stroke-width="2.5"
+                                opacity="0.85" />
+                            <path d="M120 322 Q160 316 218 323" fill="none" stroke="#ffffff" stroke-width="2"
+                                opacity="0.7" />
+                        </g>
+                    </svg>
+                </div>
+
+                <div class="vehicle-spec spec-load"><b>550</b><span>KG PAYLOAD</span></div>
+                <div class="vehicle-spec spec-range"><b>80–90</b><span>KM RANGE</span></div>
+                <div class="vehicle-spec spec-ev"><b>100%</b><span>ELECTRIC</span></div>
+            </div>
+            <div class="hero-noise"></div>
+            <div class="hero-content">
+                <div class="eyebrow">Built in Chennai. Built for the world.</div>
+                <h1>The future of commercial <em>mobility</em> is here</h1>
+                <div class="hero-bottom">
+                    <div>
+                        <p>Affordable electric loader vehicles engineered to move more, spend less and transform
+                            last-mile logistics.</p><a class="btn" href="#vehicles">Explore Vehicles →</a>
+                    </div>
+                    <div class="scroll-indicator"><span></span><i class="scroll-line"></i></div>
+                </div>
+            </div>
+        </section>
+        <section class="quick-stats">
+            <div class="quick-stat"><b>550 KG</b><span>Load carrying capacity</span></div>
+            <div class="quick-stat"><b>80–90 KM</b><span>Range per charge</span></div>
+            <div class="quick-stat"><b>&lt;20%</b><span>Operating cost vs fuel</span></div>
+            <div class="quick-stat"><b>100%</b><span>Electric power</span></div>
+        </section>
+        <section class="intro" id="vehicles">
+            <div class="intro-copy">
+                <div class="eyebrow">Electric Loaders</div>
+                <h2>Exceptionally <span class="accent">built.</span></h2>
+                <p>Battery-operated electric loader vehicles that carry about 550 kg and travel around 80–90 km per
+                    charge. Built for everyday commercial work, without everyday fuel costs.</p><a class="btn"
+                    href="#contact">Go Electric Today →</a>
+            </div>
+            <div class="intro-media"><img
+                    src="https://static.wixstatic.com/media/a373c6_144c0b49fe17428cae4a5e2e0c9c7a66~mv2.png/v1/fill/w_1100,h_1000,al_bl,q_90/a373c6_144c0b49fe17428cae4a5e2e0c9c7a66~mv2.png"
+                    alt="Vision electric commercial loader"><span class="floating-label">Affordable. Capable.
+                    Electric.</span></div>
+        </section>
+        <section class="story section" id="features">
+            <div class="section-head reveal">
+                <h2>Why <span class="accent">Vision?</span></h2>
+                <p>A simpler approach to commercial EVs: practical engineering, strong payloads and solutions tailored
+                    to the work you do.</p>
+            </div>
+            <div class="story-wrap">
+                <article class="story-panel">
+                    <div class="story-copy"><span class="story-num">01 — LOADABILITY</span>
+                        <h3>Carry more.<br>Earn more.</h3>
+                        <p>A robust 550 kg payload gives businesses the muscle needed for high-frequency, last-mile
+                            commercial operations.</p>
+                    </div>
+                    <div class="story-media"><img
+                            src="https://static.wixstatic.com/media/a373c6_7cd32dfb19d644a1b49d2f0832eac021~mv2.jpeg/v1/fill/w_1200,h_1000,al_c,q_90/a373c6_7cd32dfb19d644a1b49d2f0832eac021~mv2.jpeg"
+                            alt="Grey Vision EV loader"></div>
+                </article>
+                <article class="story-panel">
+                    <div class="story-copy"><span class="story-num">02 — EFFICIENCY</span>
+                        <h3>Move at a<br>fraction of cost.</h3>
+                        <p>Achieve deliveries at less than 20% of the cost of regular fuel-powered vehicles, helping
+                            every trip contribute more to your bottom line.</p>
+                    </div>
+                    <div class="story-media"><img
+                            src="https://static.wixstatic.com/media/a373c6_fbc17ecac7874fafb36a1277fc3be5ed~mv2.jpeg/v1/fill/w_1200,h_1000,al_c,q_90/a373c6_fbc17ecac7874fafb36a1277fc3be5ed~mv2.jpeg"
+                            alt="Red Vision EV loader"></div>
+                </article>
+                <article class="story-panel">
+                    <div class="story-copy"><span class="story-num">03 — RANGE</span>
+                        <h3>Ready for the<br>daily route.</h3>
+                        <p>An estimated 80–90 km range per charge supports dependable urban delivery cycles and repeat
+                            commercial trips.</p>
+                    </div>
+                    <div class="story-media"><img
+                            src="https://static.wixstatic.com/media/a373c6_c815402331d24e3b9c55769e32b026e5~mv2.jpeg/v1/fill/w_1200,h_1000,al_c,q_90/a373c6_c815402331d24e3b9c55769e32b026e5~mv2.jpeg"
+                            alt="Yellow Vision EV loader"></div>
+                </article>
+                <article class="story-panel">
+                    <div class="story-copy"><span class="story-num">04 — CUSTOM SOLUTIONS</span>
+                        <h3>You tell us.<br>We deliver.</h3>
+                        <p>From vehicle engineering to use-case customization, Vision develops electric mobility around
+                            the customer’s real operating requirement.</p>
+                    </div>
+                    <div class="story-media"><img
+                            src="https://static.wixstatic.com/media/a373c6_0ff29d006aef4b94a25fd62139cf8be8~mv2.jpeg/v1/fill/w_1200,h_1000,al_c,q_90/a373c6_0ff29d006aef4b94a25fd62139cf8be8~mv2.jpeg"
+                            alt="Green Vision EV loader"></div>
+                </article>
+            </div>
+        </section>
+        <section class="gallery section">
+            <div class="section-head">
+                <h2>Built for <span class="accent">real work.</span></h2>
+                <p>Multiple body configurations and colors for businesses with different routes, loads and brand
+                    identities.</p>
+            </div>
+            <div class="marquee" id="marquee"></div>
+        </section>
+        <section class="usecases section" id="usecases">
+            <div class="section-head reveal">
+                <h2>E-vehicles for<br><span class="accent">every use case.</span></h2>
+                <p>One flexible electric platform, adapted for the people and industries that keep cities moving.</p>
+            </div>
+            <div class="use-grid">
+                <article class="use-card reveal">
+                    <div class="use-icon">💧</div>
+                    <h3>Water Can<br>Suppliers</h3>
+                    <p>Efficient neighborhood distribution with strong load capacity.</p>
+                </article>
+                <article class="use-card reveal">
+                    <div class="use-icon">🔥</div>
+                    <h3>Gas Cylinder<br>Suppliers</h3>
+                    <p>A practical cargo solution for recurring local delivery routes.</p>
+                </article>
+                <article class="use-card reveal">
+                    <div class="use-icon">🪵</div>
+                    <h3>Plywood<br>Suppliers</h3>
+                    <p>Commercial carrying ability for bulky, everyday consignments.</p>
+                </article>
+                <article class="use-card reveal">
+                    <div class="use-icon">🌾</div>
+                    <h3>Agriculture &<br>Farms</h3>
+                    <p>Low-running-cost mobility for produce, tools and farm supplies.</p>
+                </article>
+            </div>
+        </section>
+        <section class="numbers section" id="about">
+            <div class="section-head">
+                <h2>Company in<br><span style="color:#101114">numbers.</span></h2>
+            </div>
+            <div class="number-grid">
+                <div class="number"><b data-count="20">0</b>
+                    <p>Employees</p>
+                </div>
+                <div class="number"><b data-count="700">0</b>
+                    <p>Vehicles sold</p>
+                </div>
+                <div class="number"><b data-count="12">0</b>
+                    <p>Cities</p>
+                </div>
+                <div class="number"><b data-count="600">0</b>
+                    <p>Smiling faces</p>
+                </div>
+            </div>
+        </section>
+        <section class="section">
+            <div class="section-head reveal">
+                <h2>Vision in<br><span class="accent">the news.</span></h2>
+                <p>Milestones, press stories and moments from Vision Innovative Products.</p>
+            </div>
+            <div class="news-grid">
+                <article class="news-card" style="--r:-2deg"><img
+                        src="https://static.wixstatic.com/media/a373c6_c846c27e24a14a8d86e2d2771a0c03d3~mv2.png/v1/fill/w_520,h_680,al_c,q_90/news2_PNG.png"
+                        alt="Vision news coverage">
+                    <p>Commercial EV innovation from Chennai.</p>
+                </article>
+                <article class="news-card" style="--r:2deg"><img
+                        src="https://static.wixstatic.com/media/a373c6_76f98e0bfdfd450bae50d29f1b597ab6~mv2.png/v1/fill/w_520,h_680,al_c,q_90/news1_PNG.png"
+                        alt="Vision news coverage">
+                    <p>Building practical electric mobility for India.</p>
+                </article>
+                <article class="news-card" style="--r:-1deg"><img
+                        src="https://static.wixstatic.com/media/a373c6_483b68b207554403a76f26cfbad65ede~mv2.png/v1/fill/w_520,h_680,al_c,q_90/news3_PNG.png"
+                        alt="Vision news coverage">
+                    <p>Purpose-built electric vehicles for every use case.</p>
+                </article>
+                <article class="news-card" style="--r:2.5deg"><img
+                        src="https://static.wixstatic.com/media/a373c6_203b73a1ea6e465cb24e67b9a707a8cf~mv2.png/v1/fill/w_520,h_680,al_c,q_90/news4_PNG.png"
+                        alt="Vision news coverage">
+                    <p>Changing commercial transport, one vehicle at a time.</p>
+                </article>
+            </div>
+        </section>
+        <section class="cta" id="contact">
+            <div>
+                <h2>Ready to join the electric revolution?</h2>
+                <p>Tell us what you need. We will build the mobility solution.</p><a class="btn"
+                    href="mailto:info@visionevehicles.com">Get Custom Quote →</a>
+            </div>
+        </section>
+    </main>
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <h3>Vision Innovative Products</h3>
+                <p>Electric vehicle manufacturers. Built in Chennai. Built for the world.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Contact</h4><a href="tel:+917358433190">+91 73584 33190</a><a href="tel:+918825754903">+91 88257
+                    54903</a><a href="mailto:info@visionevehicles.com">info@visionevehicles.com</a>
+            </div>
+            <div class="footer-col">
+                <h4>Address</h4>
+                <p>L/5, Kakkanji Street, Bypass Link Road, Periyapanicheri, Chennai, Tamil Nadu 600122</p>
+            </div>
+        </div>
+        <div class="copyright"><span>© 2026 Vision Innovative Products</span><span>Commercial EVs • Engineering
+                Solutions • Vision EV Academy</span></div>
+    </footer>
+    <script>
+        const $ = (s, c = document) => c.querySelector(s), $$ = (s, c = document) => [...c.querySelectorAll(s)];
+        window.addEventListener('load', async () => {
+            try {
+                if (document.fonts && document.fonts.ready) {
+                    await document.fonts.ready;
+                }
+            } catch (e) { }
+
+            document.body.classList.add('fonts-ready');
+
+            setTimeout(() => {
+                document.body.classList.add('page-ready');
+                $('.loader').classList.add('hide');
+            }, 450);
+        });
+        window.addEventListener('scroll', () => $('.nav').classList.toggle('scrolled', scrollY > 40));
+        const cursor = $('.cursor'); window.addEventListener('mousemove', e => { cursor.style.left = e.clientX + 'px'; cursor.style.top = e.clientY + 'px' });
+        $$('a,button,.gallery-card').forEach(el => { el.addEventListener('mouseenter', () => { cursor.style.width = '45px'; cursor.style.height = '45px'; cursor.style.background = 'white' }); el.addEventListener('mouseleave', () => { cursor.style.width = '18px'; cursor.style.height = '18px'; cursor.style.background = 'transparent' }) });
+        window.addEventListener('scroll', () => { const y = scrollY; $('.hero-bg').style.transform = `scale(1.08) translateY(${y * .18}px)` });
+        const io = new IntersectionObserver(es => es.forEach(e => e.isIntersecting && e.target.classList.add('in')), { threshold: .15 }); $$('.reveal').forEach(x => io.observe(x));
+        const pics = [
+            ['Grey Loader', 'https://static.wixstatic.com/media/a373c6_7cd32dfb19d644a1b49d2f0832eac021~mv2.jpeg/v1/fill/w_900,h_600,al_c,q_90/a373c6_7cd32dfb19d644a1b49d2f0832eac021~mv2.jpeg'],
+            ['Red Loader', 'https://static.wixstatic.com/media/a373c6_fbc17ecac7874fafb36a1277fc3be5ed~mv2.jpeg/v1/fill/w_900,h_600,al_c,q_90/a373c6_fbc17ecac7874fafb36a1277fc3be5ed~mv2.jpeg'],
+            ['Yellow Loader', 'https://static.wixstatic.com/media/a373c6_c815402331d24e3b9c55769e32b026e5~mv2.jpeg/v1/fill/w_900,h_600,al_c,q_90/a373c6_c815402331d24e3b9c55769e32b026e5~mv2.jpeg'],
+            ['Green Loader', 'https://static.wixstatic.com/media/a373c6_0ff29d006aef4b94a25fd62139cf8be8~mv2.jpeg/v1/fill/w_900,h_600,al_c,q_90/a373c6_0ff29d006aef4b94a25fd62139cf8be8~mv2.jpeg'],
+            ['Blue Loader', 'https://static.wixstatic.com/media/a373c6_017e6fd34ee740fbad4080c8430e2345~mv2.jpeg/v1/fill/w_900,h_600,al_c,q_90/a373c6_017e6fd34ee740fbad4080c8430e2345~mv2.jpeg']];
+        $('#marquee').innerHTML = [...pics, ...pics].map(([n, u]) => `<figure class="gallery-card"><img src="${u}" alt="${n}"><span>${n}</span></figure>`).join('');
+        let counted = false; const nio = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting && !counted) { counted = true; $$('[data-count]').forEach(el => { const end = +el.dataset.count, dur = 1600, start = performance.now(); function tick(t) { const p = Math.min((t - start) / dur, 1), v = Math.floor(end * (1 - Math.pow(1 - p, 3))); el.textContent = v + '+'; if (p < 1) requestAnimationFrame(tick) } requestAnimationFrame(tick) }) } }), { threshold: .3 }); nio.observe($('.numbers'));
+
+        const menuBtn = document.querySelector(".menu");
+        const navLinks = document.querySelector(".nav-links");
+
+        menuBtn.addEventListener("click", () => {
+            navLinks.classList.toggle("open");
+        });
+    </script>
+</body>
+
+</html>
